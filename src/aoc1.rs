@@ -31,19 +31,18 @@ mod tests {
 }
 
 pub fn answer1(expenses: &HashSet<i32>) -> Result<i32, &'static str> {
-    let bad_expense = expenses
+    expenses
         .iter()
-        .find(|expense| expenses.contains(&(2020 - *expense)))
-        .ok_or("No expenses that sum to 2020")?;
-    Ok(bad_expense * (2020 - bad_expense))
+        .filter_map(|exp1| Some(expenses.get(&(2020 - exp1))? * exp1))
+        .next()
+        .ok_or("No expenses that sum to 2020")
 }
 
 pub fn answer2(expenses: &HashSet<i32>) -> Result<i32, &'static str> {
-    let (bad_exp1, bad_exp2) = expenses
+    expenses
         .iter()
         .tuple_combinations()
-        .find(|(exp1, exp2)| expenses.contains(&(2020 - *exp1 - *exp2)))
-        .ok_or("No exp triplets that sum to 2020")?;
-
-    Ok(bad_exp1 * bad_exp2 * (2020 - bad_exp1 - bad_exp2))
+        .filter_map(|(exp1, exp2)| Some(expenses.get(&(2020 - exp1 - exp2))? * exp1 * exp2))
+        .next()
+        .ok_or("No expenses that sum to 2020")
 }
