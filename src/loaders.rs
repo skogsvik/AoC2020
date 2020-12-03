@@ -38,3 +38,15 @@ pub fn parse_password_req(
         (password_req, password.to_owned())
     })
 }
+
+pub fn parse_vecvec_of_trees(filename: impl AsRef<Path>) -> Vec<Vec<bool>> {
+    buf_open(filename)
+        .lines()
+        .map(|line| {
+            line.expect("Could not parse line")
+                .chars()
+                .map(|c| c == '#')
+                .collect()
+        })
+        .collect()
+}
