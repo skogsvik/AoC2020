@@ -1,4 +1,4 @@
-pub use crate::loaders::parse_password_req as load;
+pub use crate::loaders::file_to_lines as load;
 use std::ops;
 
 #[cfg(test)]
@@ -18,13 +18,13 @@ mod tests {
 
     #[bench]
     fn bench_answer1(b: &mut Bencher) {
-        let input :Vec<_>= load("input/aoc2").collect();
+        let input: Vec<_> = load("input/aoc2").collect();
         b.iter(|| answer1(input.iter().cloned()));
     }
 
     #[bench]
     fn bench_answer2(b: &mut Bencher) {
-        let input :Vec<_>= load("input/aoc2").collect();
+        let input: Vec<_> = load("input/aoc2").collect();
         b.iter(|| answer2(input.iter().cloned()));
     }
 }
@@ -32,24 +32,37 @@ mod tests {
 #[derive(Clone)]
 pub struct PasswordReq {
     pub range: ops::RangeInclusive<usize>,
-    pub character: u8,
+    pub character: char,
 }
 
-pub fn answer1(reqs_and_pass: impl Iterator<Item = (crate::aoc2::PasswordReq, String)>) -> usize {
-    reqs_and_pass
-        .filter(|(req, pass)| {
-            req.range
-                .contains(&pass.matches(req.character as char).count())
-        })
+pub fn parse_req_and_password(
+    password_candidates: impl Iterator<Item = String>,
+) -> impl Iterator<Item = (PasswordReq, String)> {
+    password_candidates.map(|line| {
+        // Splitting instead of regex since it is more straightforward
+        let (req, password) = line.split_once(':').unwrap();
+        let (range, character) = req.split_once(' ').unwrap();
+        let (start, stop) = range.split_once('-').unwrap();
+
+        let password_req = PasswordReq {
+            range: start.parse().unwrap()..=stop.parse().unwrap(),
+            character: character.chars().next().unwrap(), // Converting &str to char is gross
+        };
+        (password_req, password.to_owned())
+    })
+}
+
+pub fn answer1(password_candidates: impl Iterator<Item = String>) -> usize {
+    parse_req_and_password(password_candidates)
+        .filter(|(req, pass)| req.range.contains(&pass.matches(req.character).count()))
         .count()
 }
 
-pub fn answer2(reqs_and_pass: impl Iterator<Item = (crate::aoc2::PasswordReq, String)>) -> usize {
-    reqs_and_pass
+pub fn answer2(password_candidates: impl Iterator<Item = String>) -> usize {
+    parse_req_and_password(password_candidates)
         .filter(|(req, pass)| {
-            let target = req.character as char;
-            (pass.chars().nth(*req.range.start()).unwrap() == target)
-                ^ (pass.chars().nth(*req.range.end()).unwrap() == target)
+            (pass.chars().nth(*req.range.start()).unwrap() == req.character)
+                ^ (pass.chars().nth(*req.range.end()).unwrap() == req.character)
         })
         .count()
 }
