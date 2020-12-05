@@ -50,3 +50,20 @@ pub fn parse_vecvec_of_trees(filename: impl AsRef<Path>) -> Vec<Vec<bool>> {
         })
         .collect()
 }
+
+pub fn file_to_boarding_card_id(filename: impl AsRef<Path>) -> impl Iterator<Item = u16> {
+    /*
+    The boarding cards are essentially binary number with other characters.
+    Multiplying a number by 8 and adding a an 7-bit number is the same as just concatenating the
+    numbers
+    */
+    buf_open(filename).lines().map(|line| {
+        line.expect("Couldn't read line")
+            .chars()
+            .fold(0, |val, pos| match pos {
+                'B' | 'R' => (val << 1) + 1,
+                'F' | 'L' => val << 1,
+                _ => panic!("Unexpected char"),
+            })
+    })
+}
