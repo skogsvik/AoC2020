@@ -1,3 +1,4 @@
+use itertools::Itertools;
 use std::{
     fmt::Debug,
     fs::File,
@@ -27,4 +28,14 @@ pub fn file_to_lines(filename: impl AsRef<Path>) -> impl Iterator<Item = String>
     buf_open(filename)
         .lines()
         .map(|line| line.expect("Couldn't read line"))
+}
+
+pub fn file_to_paragraphs(filename: impl AsRef<Path>) -> impl Iterator<Item = Vec<String>> {
+    // I wish I could figure out how to make this an iterator of iterators, but I'm having trouble
+    // with the lifetimes.
+    // Perhaps the issue lies in https://github.com/rust-lang/rust/issues/61756 ?
+    file_to_lines(filename).peekable().batching(|lines| {
+        lines.peek()?; // Don't keep iterating if the iterator is empty
+        Some(lines.take_while(|line| !line.is_empty()).collect())
+    })
 }
