@@ -1,5 +1,5 @@
 pub use crate::loaders::file_to as load;
-use std::{collections::HashMap, iter};
+use std::{collections::VecDeque, iter};
 
 #[cfg(test)]
 mod tests {
@@ -62,32 +62,38 @@ pub fn answer2(adapters: impl Iterator<Item = u32>) -> u64 {
 
     /*
     Iterate list from behind, looking at the items (if possible) before it.
-    Build a hashmap of all nodes and the number of edges leading from them.
+    Use a cache of the closest items to keep track of existing paths. Cache is between 1 and 3 items
+    [(adapter-3,) (adapter-2,) adapter-1]
     Since we are iterating backwards over a topologically sorted DAG we are guaranteed to calculate
     each nodes total before we use its value
     */
-    iter::once(&sorted_adapters[..2])  // First 2 items
+    iter::once(&sorted_adapters[..2]) // First 2 items
         .chain(iter::once(&sorted_adapters[..3])) // First 3 items
         .chain(sorted_adapters[..].windows(4)) // All other windows of 4 items
         .rev()
         .fold(
             {
                 // Cache is initialized with 1 (since the end is only a single node)
-                let mut map = HashMap::with_capacity(sorted_adapters.len());
-                map.insert(end, 1);
-                map
+                let mut cache = VecDeque::with_capacity(3);
+                cache.push_back(1u64);
+                cache
             },
             |mut cache, slice| {
+                let target_size = cache.pop_back().unwrap();
                 let (target, candidates) = slice.split_last().unwrap();
-                for source in candidates.iter().rev() {
+                for (i, source) in candidates.iter().rev().enumerate() {
                     if target - source > 3 {
                         // Not reachable, all subsequent candidates will also be too big
                         break;
                     }
-                    // Add the target number of branches to entry
-                    *cache.entry(*source).or_insert(0) += cache[&target];
+                    // Add the target number of branches to cache
+                    if let Some(existing_value) = cache.get_mut(i) {
+                        *existing_value += target_size;
+                    } else {
+                        cache.push_front(target_size);
+                    }
                 }
                 cache
             },
-        )[&0] // Result is the total number of branches leading from node "0"
+        )[0] // Result is the only number left in the cache
 }
