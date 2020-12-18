@@ -1,6 +1,7 @@
 #![feature(test)]
 #![feature(str_split_once)]
 #![feature(iterator_fold_self)]
+#![feature(map_into_keys_values)]
 extern crate test;
 
 mod loaders;
@@ -17,3 +18,4 @@ pub mod aoc10;
 pub mod aoc11;
 pub mod aoc12;
 pub mod aoc13;
+pub mod aoc14;
