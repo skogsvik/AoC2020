@@ -1,6 +1,8 @@
 pub use crate::loaders::file_to as load;
 use std::{collections::VecDeque, iter};
 
+pub const DATA: &str = "input/aoc10";
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -8,23 +10,23 @@ mod tests {
 
     #[test]
     fn test_answer1() {
-        assert_eq!(answer1(load("input/aoc10")), 1856)
+        assert_eq!(answer1(load(DATA)), 1856)
     }
 
     #[test]
     fn test_answer2() {
-        assert_eq!(answer2(load("input/aoc10")), 2314037239808)
+        assert_eq!(answer2(load(DATA)), 2314037239808)
     }
 
     #[bench]
     fn bench_answer1(b: &mut Bencher) {
-        let input: Vec<u32> = load("input/aoc10").collect();
+        let input: Vec<u32> = load(DATA).collect();
         b.iter(|| answer1(input.iter().cloned()));
     }
 
     #[bench]
     fn bench_answer2(b: &mut Bencher) {
-        let input: Vec<u32> = load("input/aoc10").collect();
+        let input: Vec<u32> = load(DATA).collect();
         b.iter(|| answer2(input.iter().cloned()));
     }
 }

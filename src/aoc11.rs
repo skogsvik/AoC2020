@@ -6,6 +6,8 @@ use std::{
     hash::{Hash, Hasher},
 };
 
+pub const DATA: &str = "input/aoc11";
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -13,23 +15,23 @@ mod tests {
 
     #[test]
     fn test_answer1() {
-        assert_eq!(answer1(load("input/aoc11")), 2441)
+        assert_eq!(answer1(load(DATA)), 2441)
     }
 
     #[test]
     fn test_answer2() {
-        assert_eq!(answer2(load("input/aoc11")), 2190)
+        assert_eq!(answer2(load(DATA)), 2190)
     }
 
     #[bench]
     fn bench_answer1(b: &mut Bencher) {
-        let input: Vec<_> = load("input/aoc11").collect();
+        let input: Vec<_> = load(DATA).collect();
         b.iter(|| answer1(input.iter().cloned()));
     }
 
     #[bench]
     fn bench_answer2(b: &mut Bencher) {
-        let input: Vec<_> = load("input/aoc11").collect();
+        let input: Vec<_> = load(DATA).collect();
         b.iter(|| answer2(input.iter().cloned()));
     }
 }

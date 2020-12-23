@@ -2,6 +2,8 @@ pub use crate::loaders::file_to as load;
 use itertools::Itertools;
 use std::collections::HashSet;
 
+pub const DATA: &str = "input/aoc1";
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -9,23 +11,23 @@ mod tests {
 
     #[test]
     fn test_answer1() {
-        assert_eq!(answer1(&load("input/aoc1").collect()), Ok(121396))
+        assert_eq!(answer1(&load(DATA).collect()), Ok(121396))
     }
 
     #[test]
     fn test_answer2() {
-        assert_eq!(answer2(&load("input/aoc1").collect()), Ok(73616634))
+        assert_eq!(answer2(&load(DATA).collect()), Ok(73616634))
     }
 
     #[bench]
     fn bench_answer1(b: &mut Bencher) {
-        let input = load("input/aoc1").collect();
+        let input = load(DATA).collect();
         b.iter(|| answer1(&input));
     }
 
     #[bench]
     fn bench_answer2(b: &mut Bencher) {
-        let input = load("input/aoc1").collect();
+        let input = load(DATA).collect();
         b.iter(|| answer2(&input));
     }
 }

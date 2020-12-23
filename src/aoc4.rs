@@ -2,6 +2,8 @@ use lazy_static::lazy_static;
 use regex::{Captures, Regex};
 pub use std::{fs::read_to_string as load, ops::RangeInclusive};
 
+pub const DATA: &str = "input/aoc4";
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -9,22 +11,23 @@ mod tests {
 
     #[test]
     fn test_answer1() {
-        assert_eq!(answer1(&load("input/aoc4").unwrap()), 242)
+        assert_eq!(answer1(&load(DATA).unwrap()), 242)
     }
 
     #[test]
     fn test_answer2() {
-        assert_eq!(answer2(&load("input/aoc4").unwrap()), 186)
+        assert_eq!(answer2(&load(DATA).unwrap()), 186)
     }
 
     #[bench]
     fn bench_answer1(b: &mut Bencher) {
-        let input = load("input/aoc4").unwrap();
+        let input = load(DATA).unwrap();
         b.iter(|| answer1(&input));
     }
+
     #[bench]
     fn bench_answer2(b: &mut Bencher) {
-        let input = load("input/aoc4").unwrap();
+        let input = load(DATA).unwrap();
         b.iter(|| answer2(&input));
     }
 }

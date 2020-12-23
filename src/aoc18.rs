@@ -3,6 +3,8 @@ use lazy_static::lazy_static;
 use regex::{Captures, Regex};
 use std::ops::{AddAssign, MulAssign};
 
+pub const DATA: &str = "input/aoc18";
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -10,23 +12,23 @@ mod tests {
 
     #[test]
     fn test_answer1() {
-        assert_eq!(answer1(load("input/aoc18")), 18213007238947)
+        assert_eq!(answer1(load(DATA)), 18213007238947)
     }
 
     #[test]
     fn test_answer2() {
-        assert_eq!(answer2(load("input/aoc18")), 388966573054664)
+        assert_eq!(answer2(load(DATA)), 388966573054664)
     }
 
     #[bench]
     fn bench_answer1(b: &mut Bencher) {
-        let input: Vec<_> = load("input/aoc18").collect();
+        let input: Vec<_> = load(DATA).collect();
         b.iter(|| answer1(input.iter().cloned()));
     }
 
     #[bench]
     fn bench_answer2(b: &mut Bencher) {
-        let input: Vec<_> = load("input/aoc18").collect();
+        let input: Vec<_> = load(DATA).collect();
         b.iter(|| answer2(input.iter().cloned()));
     }
 }

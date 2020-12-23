@@ -1,5 +1,7 @@
 pub use crate::loaders::file_to as load;
 
+pub const DATA: &str = "input/aoc9";
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -7,29 +9,26 @@ mod tests {
 
     #[test]
     fn test_answer1() {
-        assert_eq!(
-            answer1(&load("input/aoc9").collect::<Vec<_>>(), 25),
-            167829540
-        )
+        assert_eq!(answer1(&load(DATA).collect::<Vec<_>>(), 25), 167829540)
     }
 
     #[test]
     fn test_answer2() {
         assert_eq!(
-            answer2(&load("input/aoc9").collect::<Vec<_>>(), &167829540),
+            answer2(&load(DATA).collect::<Vec<_>>(), &167829540),
             28045630
         )
     }
 
     #[bench]
     fn bench_answer1(b: &mut Bencher) {
-        let input: Vec<_> = load("input/aoc9").collect();
+        let input: Vec<_> = load(DATA).collect();
         b.iter(|| answer1(&input, 25));
     }
 
     #[bench]
     fn bench_answer2(b: &mut Bencher) {
-        let input: Vec<_> = load("input/aoc9").collect();
+        let input: Vec<_> = load(DATA).collect();
         b.iter(|| answer2(&input, &167829540));
     }
 }

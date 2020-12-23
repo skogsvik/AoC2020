@@ -1,6 +1,8 @@
 pub use crate::loaders::file_to_lines as load;
 use std::ops;
 
+pub const DATA: &str = "input/aoc2";
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -8,23 +10,23 @@ mod tests {
 
     #[test]
     fn test_answer1() {
-        assert_eq!(answer1(load("input/aoc2")), 396)
+        assert_eq!(answer1(load(DATA)), 396)
     }
 
     #[test]
     fn test_answer2() {
-        assert_eq!(answer2(load("input/aoc2")), 428)
+        assert_eq!(answer2(load(DATA)), 428)
     }
 
     #[bench]
     fn bench_answer1(b: &mut Bencher) {
-        let input: Vec<_> = load("input/aoc2").collect();
+        let input: Vec<_> = load(DATA).collect();
         b.iter(|| answer1(input.iter().cloned()));
     }
 
     #[bench]
     fn bench_answer2(b: &mut Bencher) {
-        let input: Vec<_> = load("input/aoc2").collect();
+        let input: Vec<_> = load(DATA).collect();
         b.iter(|| answer2(input.iter().cloned()));
     }
 }

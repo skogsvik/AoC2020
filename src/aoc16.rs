@@ -5,6 +5,8 @@ use std::{
     ops::RangeInclusive,
 };
 
+pub const DATA: &str = "input/aoc16";
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -12,22 +14,23 @@ mod tests {
 
     #[test]
     fn test_answer1() {
-        assert_eq!(answer1(load("input/aoc16")), 19070)
+        assert_eq!(answer1(load(DATA)), 19070)
     }
+
     #[test]
     fn test_answer2() {
-        assert_eq!(answer2(load("input/aoc16")), 161926544831)
+        assert_eq!(answer2(load(DATA)), 161926544831)
     }
 
     #[bench]
     fn bench_answer1(b: &mut Bencher) {
-        let parts: Vec<_> = load("input/aoc16").collect();
+        let parts: Vec<_> = load(DATA).collect();
         b.iter(|| answer1(parts.iter().cloned()));
     }
-    
+
     #[bench]
     fn bench_answer2(b: &mut Bencher) {
-        let parts: Vec<_> = load("input/aoc16").collect();
+        let parts: Vec<_> = load(DATA).collect();
         b.iter(|| answer2(parts.iter().cloned()));
     }
 }

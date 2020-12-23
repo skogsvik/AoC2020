@@ -1,6 +1,8 @@
 pub use crate::loaders::delimited_file_to as load;
 use std::collections::HashMap;
 
+pub const DATA: &str = "input/aoc15";
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -8,25 +10,23 @@ mod tests {
 
     #[test]
     fn test_answer1() {
-        assert_eq!(answer1(&load("input/aoc15", b',').collect::<Vec<_>>()), 755)
+        assert_eq!(answer1(&load(DATA, b',').collect::<Vec<_>>()), 755)
     }
 
     #[test]
     fn test_answer2() {
-        assert_eq!(
-            answer2(&load("input/aoc15", b',').collect::<Vec<_>>()),
-            11962
-        )
+        assert_eq!(answer2(&load(DATA, b',').collect::<Vec<_>>()), 11962)
     }
 
     #[bench]
     fn bench_answer1(b: &mut Bencher) {
-        let code: Vec<_> = load("input/aoc15", b',').collect();
+        let code: Vec<_> = load(DATA, b',').collect();
         b.iter(|| answer1(&code));
     }
+
     #[bench]
     fn bench_answer2(b: &mut Bencher) {
-        let code: Vec<_> = load("input/aoc15", b',').collect();
+        let code: Vec<_> = load(DATA, b',').collect();
         b.iter(|| answer2(&code));
     }
 }

@@ -3,6 +3,8 @@ use regex::Regex;
 pub use std::fs::read_to_string as load;
 use std::{collections::HashMap, iter};
 
+pub const DATA: &str = "input/aoc14";
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -10,21 +12,23 @@ mod tests {
 
     #[test]
     fn test_answer1() {
-        assert_eq!(answer1(&load("input/aoc14").unwrap()), 14954914379452)
+        assert_eq!(answer1(&load(DATA).unwrap()), 14954914379452)
     }
+
     #[test]
     fn test_answer2() {
-        assert_eq!(answer2(&load("input/aoc14").unwrap()), 3415488160714)
+        assert_eq!(answer2(&load(DATA).unwrap()), 3415488160714)
     }
 
     #[bench]
     fn bench_answer1(b: &mut Bencher) {
-        let input = load("input/aoc14").unwrap();
+        let input = load(DATA).unwrap();
         b.iter(|| answer1(&input));
     }
+
     #[bench]
     fn bench_answer2(b: &mut Bencher) {
-        let input = load("input/aoc14").unwrap();
+        let input = load(DATA).unwrap();
         b.iter(|| answer2(&input));
     }
 }

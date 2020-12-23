@@ -2,6 +2,8 @@ pub use crate::loaders::file_to_lines as load;
 use lazy_static::lazy_static;
 use std::collections::HashSet;
 
+pub const DATA: &str = "input/aoc5";
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -9,23 +11,23 @@ mod tests {
 
     #[test]
     fn test_answer1() {
-        assert_eq!(answer1(load("input/aoc5")), 864)
+        assert_eq!(answer1(load(DATA)), 864)
     }
 
     #[test]
     fn test_answer2() {
-        assert_eq!(answer2(load("input/aoc5")), Some(739))
+        assert_eq!(answer2(load(DATA)), Some(739))
     }
 
     #[bench]
     fn bench_answer1(b: &mut Bencher) {
-        let input: Vec<_> = load("input/aoc5").collect();
+        let input: Vec<_> = load(DATA).collect();
         b.iter(|| answer1(input.iter().cloned()));
     }
 
     #[bench]
     fn bench_answer2(b: &mut Bencher) {
-        let input: Vec<_> = load("input/aoc5").collect();
+        let input: Vec<_> = load(DATA).collect();
         b.iter(|| answer2(input.iter().cloned()));
     }
 }

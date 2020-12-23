@@ -1,6 +1,8 @@
 use crate::loaders::file_to_lines;
 use modinverse::modinverse;
 
+pub const DATA: &str = "input/aoc13";
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -8,23 +10,24 @@ mod tests {
 
     #[test]
     fn test_answer1() {
-        let (earliest, buses) = load("input/aoc13");
+        let (earliest, buses) = load(DATA);
         assert_eq!(answer1(&earliest, &buses), 2045)
     }
+
     #[test]
     fn test_answer2() {
-        assert_eq!(answer2(&load("input/aoc13").1), 402251700208309)
+        assert_eq!(answer2(&load(DATA).1), 402251700208309)
     }
 
     #[bench]
     fn bench_answer1(b: &mut Bencher) {
-        let (earliest, buses) = load("input/aoc13");
+        let (earliest, buses) = load(DATA);
         b.iter(|| answer1(&earliest, &buses));
     }
 
     #[bench]
     fn bench_answer2(b: &mut Bencher) {
-        let (_, buses) = load("input/aoc13");
+        let (_, buses) = load(DATA);
         b.iter(|| answer2(&buses));
     }
 }
