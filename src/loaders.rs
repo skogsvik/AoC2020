@@ -38,6 +38,14 @@ where
     })
 }
 
+pub fn file_chars_as_digits(filename: impl AsRef<Path>) -> impl Iterator<Item = u32> {
+    buf_open(filename).bytes().map(|byte| {
+        (byte.expect("Unexpected IO interruption") as char)
+            .to_digit(10)
+            .expect("Failed to parse")
+    })
+}
+
 pub fn file_to_lines(filename: impl AsRef<Path>) -> impl Iterator<Item = String> {
     buf_open(filename)
         .lines()
