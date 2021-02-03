@@ -24,3 +24,4 @@ pub mod aoc16;
 pub mod aoc17;
 pub mod aoc18;
 pub mod aoc19;
+pub mod aoc21;
